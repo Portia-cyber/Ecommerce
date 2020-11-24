@@ -16,6 +16,8 @@ const productDom = document.querySelector(".product-center")
 //Cart Item
 let cart = []
 
+let buttonDOM = []
+
 //getting the products 
 class Products {
    async getProducts() {
@@ -65,10 +67,24 @@ class UI {
    }
 
    getBagButtons() {
+
       const buttons = [...document.querySelectorAll(".bag-btn")]
-     // console.log(buttons)
+      buttonDOM = buttons
+      //console.log(buttons)
      buttons.forEach(button =>{
         let id = button.dataset.id
+        let inCart =cart.find(item => item.id === id)
+        if(inCart){
+           button.innerText ="In Cart"
+           button.disabled = true;
+        }else{
+           button.addEventListener('click', (e)=> {
+              console.log(e)
+              e.target.innerText = "In Cart"
+              button.disabled = true
+              // get product from products and add to cart
+           })
+        }
         //console.log(id)
      })
 
