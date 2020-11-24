@@ -222,7 +222,7 @@ cursor: pointer;
     width: 75px;
     height: 75px;
 }
-.card-item h4{
+.cart-item h4{
     font-size: 0.85rem;
     text-transform: capitalize;
     letter-spacing: var(--mainSpacing);
