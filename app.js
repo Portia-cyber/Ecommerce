@@ -17,32 +17,32 @@ const productDom = document.querySelector(".product-center")
 let cart = []
 
 //getting the products 
-class Products{
-  async getProducts(){
-     try {
-        let result = await fetch("products.json")
-        let data = await result.json()
-        let products = data.items
-        products = products.map (item =>{
-           const {title, price}= item.fields
-           const {id} = item.sys
-           const image = item.fields.image.fields.file.url
-           return{ title, price, id,image}
-        })
-        return products
-     } catch (error) {
-      console.log(error)  
-     }
-      
+class Products {
+   async getProducts() {
+      try {
+         let result = await fetch("products.json")
+         let data = await result.json()
+         let products = data.items
+         products = products.map(item => {
+            const { title, price } = item.fields
+            const { id } = item.sys
+            const image = item.fields.image.fields.file.url
+            return { title, price, id, image }
+         })
+         return products
+      } catch (error) {
+         console.log(error)
+      }
+
    }
 
 }
 //display productttttttttttttttt
-class UI{
-displayProduct(products){
-   let result = '';
-   products.forEach(product => {
-      result +=`
+class UI {
+   displayProduct(products) {
+      let result = '';
+      products.forEach(product => {
+         result += `
       <article class="product">
           <div class="img-container">
             <img
@@ -60,18 +60,45 @@ displayProduct(products){
       
       
       `
-   })
-   productDom.innerHTML = result;
-}
+      })
+      productDom.innerHTML = result;
+   }
+
+   getBagButtons() {
+      const buttons = [...document.querySelectorAll(".bag-btn")]
+     // console.log(buttons)
+     buttons.forEach(button =>{
+        let id = button.dataset.id
+        //console.log(id)
+     })
+
+   }
 }
 
-class Storage{
 
+
+
+
+class Storage {
+
+   static saveProducts(products) {
+      localStorage.setItem("products", JSON.stringify(products))
+   }
 }
 
-document.addEventListener("DOMContentLoaded", ()=>{
+document.addEventListener("DOMContentLoaded", () => {
    const ui = new UI()
    const product = new Products()
-   product.getProducts().then(products => ui.displayProduct(products))
+
+
+   //get all phones 
+   product.getProducts().then(products => {
+      ui.displayProduct(products)
+      Storage.saveProducts(products)
+   }).then(()=>{
+
+      ui.getBagButtons()
+   })
+ 
 })
 
